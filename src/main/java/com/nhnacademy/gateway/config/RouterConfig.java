@@ -1,5 +1,6 @@
 package com.nhnacademy.gateway.config;
 
+import com.nhnacademy.gateway.filter.AuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
@@ -10,10 +11,10 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class RouterConfig {
 
-    private static final String ROLE_ADMIN="ROLE_ADMIN";
-    private static final String ROLE_USER="ROLE_USER";
+    private final AuthFilter authFilter;
 
     private static final String RECOMMENDATION_URL="lb://4iren-recommendation";
+    private static final String CORE_URL="lb://4iren-core";
 
     @Bean
     public RouteLocator customRouter(
@@ -24,6 +25,7 @@ public class RouterConfig {
 
                 .route("4iren-recommendation",
                         p -> p.path("/api/recommendation/**")
+                                .filters(f->f.filter(authFilter))
                                 .uri(RECOMMENDATION_URL)
                 )
 
