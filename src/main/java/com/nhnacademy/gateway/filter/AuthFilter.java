@@ -13,8 +13,8 @@ public class AuthFilter implements GatewayFilter {
     private static final String idHeader="X-USER-ID";
     private static final String roleHeader="X-USER-ROLE";
 
-    private static final String ROLE_ADMIN="ROLE_ADMIN";
-    private static final String ROLE_USER="ROLE_USER";
+    private static final String ROLE_ADMIN="ADMIN";
+    private static final String ROLE_USER="NORMAL";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
