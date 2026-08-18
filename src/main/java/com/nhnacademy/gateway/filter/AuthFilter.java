@@ -1,6 +1,6 @@
 package com.nhnacademy.gateway.filter;
 
-import io.netty.util.internal.StringUtil;
+import com.nhnacademy.gateway.utils.JwtProvider;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.HttpHeaders;

@@ -1,4 +1,4 @@
-package com.nhnacademy.gateway.filter;
+package com.nhnacademy.gateway.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
