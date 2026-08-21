@@ -29,37 +29,28 @@ public class RouterConfig {
 
                 // auth
                 .route("auth-api", p -> p
-                        .path("/login", "/refresh", "/logout")
+                        .path("/api/auth/**")
                         .and()
-                        .method(HttpMethod.POST)
                         .uri(AUTH_URL)
                 )
 
 
-                // 1. 회원가입 (POST /signup) -> 인증 필터 미적용
+                // 회원가입 (POST /signup) -> 인증 필터 미적용
                 .route("account-signup", p -> p
-                        .path("/signup")
+                        .path("/api/account/signup")
                         .and()
                         .method(HttpMethod.POST)
                         .uri(ACCOUNT_URL)
                 )
 
-                // 2. 로그인 (POST /login) -> 인증 필터 미적용
-                .route("account-login", p -> p
-                        .path("/login")
-                        .and()
-                        .method(HttpMethod.POST)
-                        .uri(ACCOUNT_URL)
-                )
-
-                // 3. 사용자 조회/수정/탈퇴 (/users, /{user-id} 등) -> 인증 필터(AuthFilter) 적용
+                // account 나머지 엔드포인트
                 .route("account-api", p -> p
-                        .path("/users", "/{user-id}", "/*")
+                        .path("/api/account/**")
                         .filters(f -> f.filter(authFilter))
                         .uri(ACCOUNT_URL)
                 )
 
-                // 4. 추천 서비스 라우팅
+                // recommendation
                 .route("4iren-recommendation", p -> p
                         .path("/api/recommendation/**")
                         .filters(f -> f.filter(authFilter))

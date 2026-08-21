@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter implements WebFilter {
 
         //로그인, 회원가입, 토큰 갱신 요청은 인증 없이 허용
         if(path.equals("/api/auth/login") || path.equals("/api/auth/refresh")
-        || (path.equals("/api/accounts/users") && exchange.getRequest().getMethod().matches("POST"))){
+        || (path.equals("/api/account/signup") && exchange.getRequest().getMethod().matches("POST"))){
             return chain.filter(exchange);
         }
 
@@ -69,8 +69,11 @@ public class JwtAuthenticationFilter implements WebFilter {
             return exchange.getResponse().setComplete();
         }
 
-        //Redis에 저장된 블랙리스트 여부 확인
-        String redisKey="blacklist:"+accessToken;
+        //토큰에서 JTI 추출
+        String jti = jwtProvider.getJtiFromToken(accessToken);
+
+        //Redis에 저장된 블랙리스트 여부 확인 (jti 기반)
+        String redisKey="blacklist:"+jti;
 
         //Redis에서 해당 토큰이 블랙리스트에 등록되어 있는지 확인
         return redisTemplate.hasKey(redisKey)

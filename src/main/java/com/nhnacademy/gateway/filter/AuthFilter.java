@@ -22,12 +22,10 @@ import reactor.core.publisher.Mono;
 public class AuthFilter implements GatewayFilter {
 
     //자주 사용할 헤더이름과 권한을 미리 정의하여 오타 방지
-    private static final String idHeader="X-USER-ID";
-    private static final String loginIdHeader="X-USER-LOGINID";
-    private static final String roleHeader="X-USER-ROLE";
-
-    private static final String ROLE_ADMIN="ADMIN";
-    private static final String ROLE_USER="NORMAL";
+    private static final String ID_HEADER ="X-USER-ID";
+    private static final String LOGIN_ID_HEADER ="X-LOGIN-ID";
+    private static final String ROLE_HEADER ="X-USER-ROLE";
+    private static final String TOKEN_HEADER ="X-TOKEN-ID";
 
     //토큰 검증 및 해독을 담당할 JwtProvider를 생성자 통해 전달받음
     private final JwtProvider jwtProvider;
@@ -54,17 +52,19 @@ public class AuthFilter implements GatewayFilter {
             return onError(exchange,HttpStatus.UNAUTHORIZED);
         }
 
-        //토큰에서 실제 Id, LoginId, Role추출
+        //토큰에서 실제 Id, LoginId, Role, JTI 추출
         String userId= jwtProvider.getUserIdFromToken(token);
         String loginId= jwtProvider.getLoginIdFromToken(token);
         String role= jwtProvider.getRoleFromToken(token);
+        String jti = jwtProvider.getJtiFromToken(token);
 
         //헤더에 실제 정보 탑재 후 전달
         ServerHttpRequest req= request
                 .mutate()
-                .header("X-USER-ID",userId!= null? userId: "")
-                .header("X-USER-LOGINID",loginId!=null?loginId:"")
-                .header("X-USER-ROLE",role!=null?role:"")
+                .header(ID_HEADER,userId!= null? userId: "")
+                .header(LOGIN_ID_HEADER,loginId!=null?loginId:"")
+                .header(ROLE_HEADER,role!=null?role:"")
+                .header(TOKEN_HEADER, jti!=null?jti:"")
                 .build();
 
         return chain.filter(exchange.mutate().request(req).build());
