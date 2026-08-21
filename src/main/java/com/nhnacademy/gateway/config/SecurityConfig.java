@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -19,7 +19,7 @@ import org.springframework.security.web.server.context.NoOpServerSecurityContext
  */
 
 @Configuration
-@EnableWebSecurity
+@EnableWebFluxSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -43,7 +43,7 @@ public class SecurityConfig {
                         // 로그인, 로그아웃, 토큰 갱신 엔드포인트는 인증 없이 접근 허용
                         .pathMatchers("/api/auth/login", "/api/auth/refresh", "/api/auth/logout").permitAll()
                         // 회원가입 엔드포인트는 인증 없이 접근 허용
-                        .pathMatchers(HttpMethod.POST, "/api/accounts/users").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/account/signup").permitAll()
                         // 그 외 모든 요청은 인증 필요
                         .anyExchange().authenticated()
                 )

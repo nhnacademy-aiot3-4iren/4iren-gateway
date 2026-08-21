@@ -2,36 +2,5 @@ spring:
   application:
     name: 4iren-gateway
 
-  data:
-    redis:
-      host: 10.116.64.14
-      port: 6379
-      password: '{cipher}289e384469834b2ef15695bf5353fa3d588f93b9e967a61f5b4352daa9cfd2648d162157011cc8585c263e65039df41c'
-      database: 339
-
-
-logging:
-  level:
-    root: info
-
-server:
-  port: 8000
-
-external:
-  auth-api:
-    uri: http://localhost:8083
-  account-api:
-    uri: http://localhost:8081
-
-
-jwt:
-  secret-key: '{cipher}40cd4534c2f63f7e9fa794016e03649ff4e447c1310d8120bbc2ddfcc75615e64d69ea590b3bb01acf703c42fffc9129ecee5201803223fb20e2ad46fca63587f6a7d21de5fb2dacc671dd75e98e4808acb3d257db6bc6e31ec0eaad20ace2135217b76373470f2c71bfb41debb348e3'
-
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}  # ${환경변수:기본값} 구문. 환경변수가 없으면 http://~ 를 바라봄
-    register-with-eureka: true  # gateway를 eureka에 등록할 것인지 설정 (서비스 등록여부)
-    fetch-registry: true        # 다른 서비스의 주소 목록을 Eureka에서 받아올지 결정
-  instance:
-    prefer-ip-address: true     # Eureka 등록 시 컴퓨터 이름 대신 IP 주소로 등록하게 지정 (IP주소 사용 여부)
+  config:
+    import: ${CONFIG_SERVER_URL:optional:configserver:http://localhost:8888}
