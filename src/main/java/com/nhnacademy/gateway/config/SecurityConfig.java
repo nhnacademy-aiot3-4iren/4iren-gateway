@@ -40,6 +40,8 @@ public class SecurityConfig {
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 // 권한 설정
                 .authorizeExchange(exchanges-> exchanges
+                        // 헬스체크(actuator)는 인증 없이 접근 허용
+                        .pathMatchers("/actuator/**").permitAll()
                         // 로그인, 로그아웃, 토큰 갱신 엔드포인트는 인증 없이 접근 허용
                         .pathMatchers("/api/auth/login", "/api/auth/refresh", "/api/auth/logout").permitAll()
                         // 회원가입 엔드포인트는 인증 없이 접근 허용
