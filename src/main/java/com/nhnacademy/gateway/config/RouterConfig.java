@@ -51,10 +51,16 @@ public class RouterConfig {
                 )
 
                 // recommendation
-                .route("4iren-recommendation", p -> p
-                        .path("/api/recommendation/**")
-                        .filters(f -> f.filter(authFilter))
-                        .uri(RECOMMENDATION_URL)
+                .route("4iren-recommendation",
+                        p -> p.path("/api/recommendation/**")
+                                .filters(f->f.filter(authFilter))
+                                .uri(RECOMMENDATION_URL)
+                )
+
+                .route("4iren-core",
+                        p->p.path("/api/core/**")
+                                .filters(f->f.filter(authFilter))
+                                .uri(CORE_URL)
                 )
 
                 .build();
