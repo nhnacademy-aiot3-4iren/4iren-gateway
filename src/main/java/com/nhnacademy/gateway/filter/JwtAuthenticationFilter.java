@@ -44,8 +44,8 @@ public class JwtAuthenticationFilter implements WebFilter {
         //들어온 http요청의 url 경로만 추출해서 변수에 담음
         String path=exchange.getRequest().getURI().getPath();
 
-        //로그인, 회원가입, 토큰 갱신 요청은 인증 없이 허용
-        if(path.equals("/api/auth/login") || path.equals("/api/auth/refresh")
+        //로그인, 회원가입, 토큰 갱신, 헬스체크 요청은 인증 없이 허용
+        if(path.startsWith("/actuator") || path.equals("/api/auth/login") || path.equals("/api/auth/refresh")
         || (path.equals("/api/account/signup") && exchange.getRequest().getMethod().matches("POST"))){
             return chain.filter(exchange);
         }
