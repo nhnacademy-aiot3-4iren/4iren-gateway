@@ -46,6 +46,8 @@ public class JwtAuthenticationFilter implements WebFilter {
 
         //로그인, 회원가입, 토큰 갱신, 헬스체크 요청은 인증 없이 허용
         if(path.startsWith("/actuator") || path.equals("/api/auth/login") || path.equals("/api/auth/refresh")
+        || (path.contains("/api/account/signup"))
+        || (path.contains("/api/account/reset-password"))){
         || (path.equals("/api/account/signup") && exchange.getRequest().getMethod().matches("POST"))
         || (path.equals("/api/payment/plans") && exchange.getRequest().getMethod().matches("GET"))
         || (path.equals("/api/payment/billing-keys/toss/callback") && exchange.getRequest().getMethod().matches("POST"))
