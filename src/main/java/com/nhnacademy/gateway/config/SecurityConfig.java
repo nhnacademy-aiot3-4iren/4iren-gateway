@@ -45,7 +45,7 @@ public class SecurityConfig {
                         // 로그인, 로그아웃, 토큰 갱신 엔드포인트는 인증 없이 접근 허용
                         .pathMatchers("/api/auth/login", "/api/auth/refresh", "/api/auth/logout").permitAll()
                         // 회원가입 엔드포인트는 인증 없이 접근 허용
-                        .pathMatchers(HttpMethod.POST, "/api/account/signup").permitAll()
+                        .pathMatchers("/api/account/signup/**", "/api/account/reset-password/**").permitAll()
                         // 요금제 조회 - 로그인 안 해도 볼 수 있어야 함
                         .pathMatchers(HttpMethod.GET, "/api/payment/plans").permitAll()
                         // 토스 콜백 - 토스 서버가 직접 호출(서버-투-서버, 우리 인증 토큰 없음)
