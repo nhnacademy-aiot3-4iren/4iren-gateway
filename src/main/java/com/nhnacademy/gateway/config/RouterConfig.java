@@ -38,11 +38,9 @@ public class RouterConfig {
                 )
 
 
-                // 회원가입 (POST /signup) -> 인증 필터 미적용
-                .route("account-signup", p -> p
-                        .path("/api/account/signup")
-                        .and()
-                        .method(HttpMethod.POST)
+                // 인증 필터 미적용 API (회원가입, 비밀번호 찾기 등)
+                .route("account-open-api", p -> p
+                        .path("/api/account/signup/**", "/api/account/reset-password/**")
                         .uri(ACCOUNT_URL)
                 )
 
