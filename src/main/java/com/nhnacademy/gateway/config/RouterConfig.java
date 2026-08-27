@@ -72,6 +72,32 @@ public class RouterConfig {
                                 .uri(NOTIFICATION_URL)
                 )
 
+                // 가격 조회 - 로그인 안 해도 요금제를 볼 수 있어야 함 -> 인증 필터 미적용
+                .route("payment-plans", p -> p
+                        .path("/api/payment/plans")
+                        .and()
+                        .method(HttpMethod.GET)
+                        .uri(PAYMENT_URL)
+                )
+
+                // 토스 콜백 - 토스 서버가 직접 호출(서버-투-서버, 우리 인증 토큰 없음) -> 인증 필터 미적용
+                .route("payment-toss-callback", p -> p
+                        .path("/api/payment/billing-keys/toss/callback")
+                        .and()
+                        .method(HttpMethod.POST)
+                        .uri(PAYMENT_URL)
+                )
+
+                // 카카오 콜백 - 사용자 브라우저가 리다이렉트되어 오는 요청이라 세션 쿠키가 있어서 인증 필터 그대로 적용.
+                // 토스 콜백 라우트와 나란히 명시해서 콜백 두 개가 대칭적으로 보이게 함(동작은 아래 4iren-payment 와일드카드와 동일).
+                .route("payment-kakao-callback", p -> p
+                        .path("/api/payment/billing-keys/kakao/callback")
+                        .and()
+                        .method(HttpMethod.GET)
+                        .filters(f -> f.filter(authFilter))
+                        .uri(PAYMENT_URL)
+                )
+
                 .route("4iren-payment",
                         p->p.path("/api/payment/**")
                                 .filters(f->f.filter(authFilter))
