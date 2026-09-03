@@ -23,6 +23,7 @@ public class RouterConfig {
     private static final String NOTIFICATION_URL="lb://4iren-notification";
     private static final String PAYMENT_URL="lb://4iren-payment";
     private static final String PROCESSING_URL = "lb://4iren-processing";
+    private static final String RULE_URL = "lb://4iren-rule-engine";
 
     @Bean
     public RouteLocator customRouter(
@@ -106,6 +107,12 @@ public class RouterConfig {
                         p -> p.path("/api/processing/**")
                                 .filters(f -> f.filter(authFilter))
                                 .uri(PROCESSING_URL)
+                )
+
+                .route("4iren-rule",
+                        p -> p.path("/api/rule/**")
+                                .filters(f -> f.filter(authFilter))
+                                .uri(RULE_URL)
                 )
 
                 .build();
