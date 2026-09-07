@@ -40,8 +40,10 @@ public class SecurityConfig {
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 // 권한 설정
                 .authorizeExchange(exchanges-> exchanges
-                        // 헬스체크(actuator)는 인증 없이 접근 허용
-                        .pathMatchers("/actuator/**").permitAll()
+                        // 헬스체크(actuator) 및 에러 페이지는 인증 없이 접근 허용
+                        .pathMatchers("/actuator/**", "/error").permitAll()
+                        // Swagger UI 및 OpenAPI 문서 접근 허용
+                        .pathMatchers("/swagger-ui.html", "/webjars/**", "/v3/api-docs/**", "/api/*/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         // 로그인, 로그아웃, 토큰 갱신 엔드포인트는 인증 없이 접근 허용
                         .pathMatchers("/api/auth/login", "/api/auth/refresh", "/api/auth/logout").permitAll()
                         // 회원가입 엔드포인트는 인증 없이 접근 허용
