@@ -31,13 +31,6 @@ public class RouterConfig {
     ) {
         return builder.routes()
 
-                // Swagger UI Redirect ( / -> /swagger-ui.html )
-                .route("swagger-ui-redirect", p -> p
-                        .path("/")
-                        .filters(f -> f.redirect(301, "/swagger-ui.html"))
-                        .uri("no://op")
-                )
-
                 // Swagger OpenAPI docs (인증 필터 예외 처리)
                 .route("swagger-docs-account", p -> p
                         .path("/api/account/v3/api-docs/**")
