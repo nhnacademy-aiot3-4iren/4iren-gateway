@@ -31,6 +31,43 @@ public class RouterConfig {
     ) {
         return builder.routes()
 
+                // Swagger UI Redirect ( / -> /swagger-ui.html )
+                .route("swagger-ui-redirect", p -> p
+                        .path("/")
+                        .filters(f -> f.redirect(301, "/swagger-ui.html"))
+                        .uri("no://op")
+                )
+
+                // Swagger OpenAPI docs (인증 필터 예외 처리)
+                .route("swagger-docs-account", p -> p
+                        .path("/api/account/v3/api-docs/**")
+                        .uri(ACCOUNT_URL)
+                )
+                .route("swagger-docs-core", p -> p
+                        .path("/api/core/v3/api-docs/**")
+                        .uri(CORE_URL)
+                )
+                .route("swagger-docs-recommendation", p -> p
+                        .path("/api/recommendation/v3/api-docs/**")
+                        .uri(RECOMMENDATION_URL)
+                )
+                .route("swagger-docs-notification", p -> p
+                        .path("/api/notification/v3/api-docs/**")
+                        .uri(NOTIFICATION_URL)
+                )
+                .route("swagger-docs-payment", p -> p
+                        .path("/api/payment/v3/api-docs/**")
+                        .uri(PAYMENT_URL)
+                )
+                .route("swagger-docs-processing", p -> p
+                        .path("/api/processing/v3/api-docs/**")
+                        .uri(PROCESSING_URL)
+                )
+                .route("swagger-docs-rule", p -> p
+                        .path("/api/rule/v3/api-docs/**")
+                        .uri(RULE_URL)
+                )
+
                 // auth
                 .route("auth-api", p -> p
                         .path("/api/auth/**")

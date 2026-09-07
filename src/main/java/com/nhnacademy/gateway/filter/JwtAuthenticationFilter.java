@@ -50,6 +50,8 @@ public class JwtAuthenticationFilter implements WebFilter {
         || (path.contains("/api/account/reset-password"))
         || (path.equals("/api/payment/plans") && exchange.getRequest().getMethod().matches("GET"))
         || (path.equals("/api/payment/billing-keys/toss/callback") && exchange.getRequest().getMethod().matches("POST"))
+        || (path.contains("/swagger"))
+        || (path.contains("/v3/api-docs"))
         ){
             return chain.filter(exchange);
         }
