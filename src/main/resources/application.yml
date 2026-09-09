@@ -1,6 +1,8 @@
 spring:
   application:
     name: 4iren-gateway
+  reactor:
+    context-propagation: auto
 
   config:
     import: ${CONFIG_SERVER_URL:optional:configserver:http://localhost:8888}
